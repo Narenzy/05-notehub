@@ -5,7 +5,7 @@ import NoteList from "../NoteList/NoteList";
 import { fetchNotes } from "../../services/noteService";
 
 export default function App() {
-  const { data: notes = [] } = useQuery({
+  const { data } = useQuery({
     queryKey: ["notes"],
     queryFn: fetchNotes,
   });
@@ -13,11 +13,11 @@ export default function App() {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        {notes.length > 0 && <NoteList notes={notes} />}
         {/* Компонент SearchBox */}
         {/* Пагінація */}
         {/* Кнопка створення нотатки */}
       </header>
+      {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
     </div>
   );
 }

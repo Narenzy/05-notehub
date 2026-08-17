@@ -1,11 +1,11 @@
-import type { Note } from "../types/note";
+import type { Note, NoteResponse } from "../types/note";
 import axios from "axios";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-axios.defaults.headers.common.Authorization = `Bearer${import.meta.env.VITE_NOTEHAB_TOKEN}`;
+axios.defaults.headers.common.Authorization = `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN}`;
 
-export async function fetchNotes(): Promise<Note[]> {
-  const res = await axios.get<Note[]>("/notes");
+export async function fetchNotes(): Promise<NoteResponse> {
+  const res = await axios.get<NoteResponse>("/notes");
   return res.data;
 }
 
