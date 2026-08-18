@@ -6,21 +6,28 @@ import Pagination from "../Pagination/Pagination";
 import { fetchNotes } from "../../services/noteService";
 import NoteForm from "../NoteForm/NoteForm";
 import Modal from "../Modal/Modal";
+import SearchBox from "../SearchBox/SearchBox";
 
 export default function App() {
+  const [search, setSearch] = useState("");
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const [page, setPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data } = useQuery({
-    queryKey: ["notes", page],
-    queryFn: () => fetchNotes(page, 10),
+    queryKey: ["notes", page, search],
+    queryFn: () => fetchNotes(page, 10, search),
     placeholderData: keepPreviousData,
   });
 
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        {/* Компонент SearchBox */}
+        <SearchBox value={search} onChange={setSearch} />
 
         <Pagination
           currentPage={page}
@@ -34,8 +41,8 @@ export default function App() {
       </header>
       {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
       {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <NoteForm />
+        <Modal onClose={closeModal}>
+          <NoteForm onClose={closeModal} />
         </Modal>
       )}
     </div>
