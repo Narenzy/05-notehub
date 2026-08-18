@@ -7,9 +7,11 @@ import { fetchNotes } from "../../services/noteService";
 import NoteForm from "../NoteForm/NoteForm";
 import Modal from "../Modal/Modal";
 import SearchBox from "../SearchBox/SearchBox";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export default function App() {
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 500);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -19,8 +21,8 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data } = useQuery({
-    queryKey: ["notes", page, search],
-    queryFn: () => fetchNotes(page, 10, search),
+    queryKey: ["notes", page, debouncedSearch],
+    queryFn: () => fetchNotes(page, 10, debouncedSearch),
     placeholderData: keepPreviousData,
   });
 
