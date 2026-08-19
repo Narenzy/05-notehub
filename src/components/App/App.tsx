@@ -31,11 +31,13 @@ export default function App() {
       <header className={css.toolbar}>
         <SearchBox value={search} onChange={setSearch} />
 
-        <Pagination
-          currentPage={page}
-          totalPages={data?.totalPages ?? 1}
-          onPageChange={setPage}
-        />
+        {data && data.totalPages > 1 && (
+          <Pagination
+            currentPage={page}
+            totalPages={data.totalPages}
+            onPageChange={setPage}
+          />
+        )}
 
         <button className={css.button} onClick={() => setIsModalOpen(true)}>
           Create note +

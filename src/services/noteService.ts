@@ -1,20 +1,32 @@
-import type { Note, NoteResponse, CreateNoteData } from "../types/note";
+import type { Note, CreateNoteData } from "../types/note";
 import axios from "axios";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.headers.common.Authorization = `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN}`;
 
+export interface NoteResponse {
+  notes: Note[];
+  totalPages: number;
+}
+
 export async function fetchNotes(
   page: number = 1,
   perPage: number = 10,
-  search: string,
+  search?: string,
 ): Promise<NoteResponse> {
+  const params: {
+    page: number;
+    perPage: number;
+    search?: string;
+  } = {
+    page,
+    perPage,
+  };
+  if (search?.trim()) {
+    params.search = search.trim();
+  }
   const res = await axios.get<NoteResponse>("/notes", {
-    params: {
-      page,
-      perPage,
-      search,
-    },
+    params,
   });
   return res.data;
 }

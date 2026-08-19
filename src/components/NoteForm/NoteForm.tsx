@@ -51,11 +51,7 @@ export default function NoteForm({ onClose }: NoteFormProps) {
           <div className={css.formGroup}>
             <label htmlFor="title">Title</label>
             <Field id="title" type="text" name="title" className={css.input} />
-            <ErrorMessage
-              component="span"
-              name="content"
-              className={css.error}
-            />
+            <ErrorMessage component="span" name="title" className={css.error} />
           </div>
 
           <div className={css.formGroup}>
@@ -68,7 +64,11 @@ export default function NoteForm({ onClose }: NoteFormProps) {
               className={css.textarea}
             />
 
-            <Field component="span" name="content" className={css.error} />
+            <ErrorMessage
+              component="span"
+              name="content"
+              className={css.error}
+            />
           </div>
 
           <div className={css.formGroup}>
